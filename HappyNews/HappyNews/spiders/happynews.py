@@ -15,12 +15,13 @@ class HappynewsSpider(CrawlSpider):
     start_urls = ['http://www.cecet.cn/ent/0001/list_26_1.shtml']
 
     rules = (
-        Rule(LinkExtractor(allow=r'Items/'), callback='parse_item', follow=True),
+        # 匹配新闻列表页url
+        Rule(LinkExtractor(restrict_xpaths='/html/body/center/div[3]/div[1]/div/div/div/a[11]'), follow=True),
+        # 匹配新闻详情页url
+        Rule(LinkExtractor(allow=r'http://www.cecet.cn/ent/(\d)*/(\d)*.shtml', restrict_xpaths='//*[@class="newslist"]/dl'),callback='parse_item', follow=False)
     )
 
     def parse_item(self, response):
-        i = {}
-        #i['domain_id'] = response.xpath('//input[@id="sid"]/@value').extract()
-        #i['name'] = response.xpath('//div[@id="name"]').extract()
-        #i['description'] = response.xpath('//div[@id="description"]').extract()
-        return i
+        pass
+
+
